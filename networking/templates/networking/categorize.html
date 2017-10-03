@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{{header}}</h1>
+
+    {% if form.errors %}
+        <p style="color: red;">
+            Please correct the error{{ form.errors|pluralize }} below.
+        </p>
+    {% endif %}
+
+<div class="container">
+<form action="" enctype="multipart/form-data"  method="post">
+{% for person in people %}
+<div class="row">
+    <div class="col-4">
+
+<fieldset class="radiogroup"> 
+  <input type="radio" name="{{ person.email }}" value="1" {% if person.connection_level == 1 %}checked{% endif %}>High<br>
+  <input type="radio" name="{{ person.email }}" value="3" {% if person.connection_level == 3 %}checked{% endif %}>Medium<br>
+  <input type="radio" name="{{ person.email }}" value="5" {% if person.connection_level == 5 %}checked{% endif %}>Low
+
+    
+    </div>
+    
+    <div class="col-4">
+        <strong>{{ person.first_name }} {{ person.last_name }}</strong> <br>
+        {{ person.position }}, {{ person.company }} - {{ person.email }}
+    </div>
+    </fieldset>
+
+</div>
+{% endfor %}
+        {% csrf_token %}
+<input type="submit" value="Submit">
+    </form>
+
+</div>
+    <form action="" enctype="multipart/form-data"  method="post">
+        <table>
+            {{ form.as_table }}
+        </table>
+        {% csrf_token %}
+        <input type="submit" value="Submit">
+    </form>
+{% endblock %}

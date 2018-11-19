@@ -1,0 +1,2 @@
+Notes
+- In views line 91 ToContact needs to be filtered by the user that the connection belongs to through the foreign key

@@ -18,10 +18,46 @@ import xlrd
 import datetime
 from datetime import timedelta
 import pdb
+from networkingapp import settings
+import stripe
+stripe.api_key = settings.STRIPE_SECRET_KEY
 # Create your views here.
 
 def home(request):
-    return render(request, 'networking/home.html')
+    return render(request, 'networking/homess.html')
+
+def pricing(request):
+    context = { "stripe_key": settings.STRIPE_PUBLIC_KEY }
+    return render(request, 'networking/pricing.html', context)
+
+def howitworks(request):
+    return render(request, 'networking/howitworks.html')
+
+def checkout(request):
+    if request.method == "POST":
+        token    = request.POST.get("stripeToken")
+        print (token)
+    try:
+        charge  = stripe.Charge.create(
+            amount      = 1000,
+            currency    = "usd",
+            source      = token,
+            description = "Inital product "
+        )
+
+#        new_car.charge_id   = charge.id
+
+    except stripe.error.CardError as ce:
+        return False, ce
+
+    else:
+#        new_car.save()
+        return redirect("/getstarted/")
+        # The payment was successfully processed, the user's card was charged.
+        # You can now redirect the user to another page or whatever you want
+
+def getstarted(request):
+    return render(request, 'networking/getstarted.html')
 
 #def import_sheet(request):
 #    return render(request, 'networking/home.html')
@@ -86,6 +122,8 @@ def import_sheet(request):
                 con.save()
                 date = datetime.date.today()
                 dateoneweek = date + timedelta(weeks=1)
+                x = Week(owner = owner, number = 1)
+                x.save()
                 w=0
                 while (date < dateoneweek) and (w<1):
                     a = ToContact.objects.filter(date = date)
@@ -95,6 +133,7 @@ def import_sheet(request):
                     else:
                         q = ToContact(connection = con, date = date)
                         q.save()
+                        x.contacts.add(q)
                         print 'scheduled'
                         w=1
                 i = i+1

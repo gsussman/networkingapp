@@ -48,6 +48,14 @@ class ToContact(models.Model):
  def __unicode__(self):
   return unicode(self.date)
 
+class Week(models.Model):
+ number = models.IntegerField()
+ contacts = models.ManyToManyField(ToContact)
+ owner = models.ForeignKey(User, null=True)
+
+ def __unicode__(self):
+  return unicode(self.number)
+
 #@receiver(signals.post_save, sender=Connection)
 def schedule_contact(sender, instance, **kwargs):
 	print instance

@@ -73,3 +73,9 @@ def reek_range(date):
   start_date = date - timedelta(dow)
  end_date = start_date + timedelta(6)
  print week, start_date, end_date
+ 
+class emailcapture(models.Model):
+ email = models.EmailField()
+
+ def __unicode__(self):
+  return self.email

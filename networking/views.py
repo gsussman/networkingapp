@@ -28,6 +28,14 @@ def home(request):
 
 def pricing(request):
     context = { "stripe_key": settings.STRIPE_PUBLIC_KEY }
+    if request.method == "POST":
+        print "Post"
+        for key, values in request.POST.lists():
+            print(key, values)
+        print request.POST.get('emailname')
+        email = request.POST.get('emailname')
+        a = emailcapture(email = email)
+        a.save()
     return render(request, 'networking/pricing.html', context)
 
 def howitworks(request):

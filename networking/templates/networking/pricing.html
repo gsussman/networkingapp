@@ -64,12 +64,15 @@
           <div class="card-body">
             <h1 class="card-title pricing-card-title">$10 <small class="text-muted">/ mo</small></h1>
             <ul class="list-unstyled mt-3 mb-4">
-              <li>20 users included</li>
-              <li>10 GB of storage</li>
-              <li>Priority email support</li>
-              <li>Help center access</li>
+              <li style="border-bottom:solid 1px #DDD;"><span>&#8226; </span>Upload unlimited connections</li>
+              <li style="border-bottom:solid 1px #DDD;"><span>&#8226; </span>Get a custom weekly networking plan</li>
+              <li style="border-bottom:solid 1px #DDD;"><span>&#8226; </span>Track status through our website, email, and text</li>
+              <li style="border-bottom:solid 1px #DDD;"><span>&#8226; </span>Suggestions on writing effective messages</li></li>
             </ul>
-<form action="/checkout/" method="POST"> {% csrf_token %}
+            
+            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#exampleModalCenter">Get Started!</button>
+<!--            
+ <form action="/checkout/" method="POST"> {% csrf_token %}
   <script
     src="https://checkout.stripe.com/checkout.js" class="stripe-button"
     data-key={{stripe_key}}
@@ -81,10 +84,43 @@
     data-label="Get Started">
   </script>
 </form>
+
+-->
           </div>
         </div>
 
       </div>
+      
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Oops, We're Not Quite Ready Yet</h5>
+      </div>
+              <form method="post"> {% csrf_token %}
+      <div class="modal-body">
+        <p>We're working hard to make XXXX perfect, but we're not there yet. If you leave your email below we will contact you when we are ready to start taking new customers. </p>
+
+  <div class="form-group">
+    <label for="exampleInputEmail1">Email address</label>
+    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" name="emailname">
+    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+  </div>
+
+    
+ 
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+      </form>
+
+      
+    </div>
+  </div>
+</div>
+
 
     <footer class="footer">
         <div class="container">

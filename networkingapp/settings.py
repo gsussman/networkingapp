@@ -25,7 +25,7 @@ SECRET_KEY = 'z21ji%7xq_-=-iy&cg#yhls(uvtbe+cka1#qz*y1*8l5gt4jkg'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', '.pythonanywhere.com', 'networkingapp-gsussman.c9users.io']
+ALLOWED_HOSTS = ['127.0.0.1', '.pythonanywhere.com', 'networkingapp-gsussman.c9users.io', '*']
 
 
 # Application definition

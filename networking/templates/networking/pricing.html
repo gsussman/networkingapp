@@ -50,6 +50,14 @@
   </div>
 </nav>
 
+{% if messages %}
+  <div class="alert alert-success" role="alert">
+    {% for message in messages %}
+      <p class="{{ message.tags }}" style="text-align:center">{{ message }}</p>
+    {% endfor %}
+  </div>
+{% endif %}
+
     <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
       <h1 class="display-4">Pricing</h1>
     </div>
@@ -62,7 +70,7 @@
             <h4 class="my-0 font-weight-normal">Get Started</h4>
           </div>
           <div class="card-body">
-            <h1 class="card-title pricing-card-title">$10 <small class="text-muted">/ mo</small></h1>
+            <h1 class="card-title pricing-card-title">$9<sup style="top:-.7em; font-size: 50%">99</sup> <small class="text-muted">/ mo</small></h1>
             <ul class="list-unstyled mt-3 mb-4">
               <li style="border-bottom:solid 1px #DDD;"><span>&#8226; </span>Upload unlimited connections</li>
               <li style="border-bottom:solid 1px #DDD;"><span>&#8226; </span>Get a custom weekly networking plan</li>
@@ -76,7 +84,7 @@
   <script
     src="https://checkout.stripe.com/checkout.js" class="stripe-button"
     data-key={{stripe_key}}
-    data-amount="1000"
+    data-amount="999"
     data-name="Networked"
     data-description="Get Started"
     data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
@@ -96,11 +104,11 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Oops, We're Not Quite Ready Yet</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle">Sorry, we're fresh out of beta testing spots</h5>
       </div>
               <form method="post"> {% csrf_token %}
       <div class="modal-body">
-        <p>We're working hard to make Networked perfect, but we're not there yet. If you leave your email below we will contact you when we are ready to start taking new customers. </p>
+        <p>We're working hard to make Networked perfect, but we've already filled up all our spots for beta tester. If you leave your email below we will contact you when we are ready to start taking new people. </p>
 
   <div class="form-group">
     <label for="exampleInputEmail1">Email address</label>

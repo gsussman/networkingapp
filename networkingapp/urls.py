@@ -23,7 +23,6 @@ from networking import views as core_views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'', include('networking.urls')),
-    url(r'^api/', include('api.urls')),
     url(r'^login/$', auth_views.login, name='login'),
     url(r'^logout/$', auth_views.logout, name='logout'),
     url(r'^signup/$', core_views.signup, name='signup'),

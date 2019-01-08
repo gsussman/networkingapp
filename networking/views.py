@@ -20,6 +20,8 @@ from datetime import timedelta
 import pdb
 from networkingapp import settings
 import stripe
+from django.contrib import messages
+
 stripe.api_key = settings.STRIPE_SECRET_KEY
 # Create your views here.
 
@@ -36,6 +38,7 @@ def pricing(request):
         email = request.POST.get('emailname')
         a = emailcapture(email = email)
         a.save()
+        messages.success(request, "You're all signed up! We'll let you know when we are taking more people.")
     return render(request, 'networking/pricing.html', context)
 
 def howitworks(request):

@@ -10,5 +10,6 @@ urlpatterns = [
     url(r'^categorize/', views.categorize, name="categorize"),
     url(r'^checkout/', views.checkout, name="checkout"),
     url(r'^getstarted/', views.getstarted, name="getstarted"),
+    url(r'^signup/', views.signup, name="signup")
     
 ]

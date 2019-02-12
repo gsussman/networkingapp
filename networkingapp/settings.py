@@ -137,8 +137,6 @@ WEBPACK_LOADER = {
 FILE_UPLOAD_HANDLERS = ("django_excel.ExcelMemoryFileUploadHandler",
                         "django_excel.TemporaryExcelFileUploadHandler")
 
-CELERY_RESULT_BACKEND = 'django-db'
-CELERY_RESULT_BACKEND = 'django-cache'
 
 STRIPE_SECRET_KEY = os.environ.get("SECRET_API_KEY")
 STRIPE_PUBLIC_KEY = os.environ.get("PUBLISHABLE_API_KEY")

@@ -11,8 +11,6 @@ from django.shortcuts import render_to_response
 from django.http import HttpResponseBadRequest, HttpResponse
 from django import forms
 from django.template import RequestContext
-import django_excel as excel
-import pyexcel as pe
 from models import *
 import xlrd
 import datetime
@@ -175,3 +173,39 @@ def import_sheet(request):
 #    con = Connection(first_name = first_name, last_name = last_name, email = email, company = company, position = position, connection_level = connection_level, owner=owner)
 #    con.save()
 #    i = i+1#
+
+def signup_manual(request):
+    if request.method == 'POST':
+        result = request.POST
+        for key, values in request.POST.lists():
+            print(key, values)
+        username = request.POST['email']
+        email = request.POST['email']
+        password = request.POST['password']
+        firstname = request.POST['first_name']
+        lastname = request.POST['last_name']
+        user = User.objects.create_user(username = username, email = email, password = password, first_name = firstname, last_name = lastname)
+        user.save()
+        userlogin = authenticate(username=username, password=password)
+        login(request, userlogin)
+        return redirect('/update-profile/')
+#            user = form.save()
+#            user.refresh_from_db()  # load the profile instance created by the signal
+#            user.profile.name = form.cleaned_data.get('name')
+#            user.profile.description = form.cleaned_data.get('description')
+#            user.profile.topic = form.cleaned_data.get('topic')
+#            user.profile.twitter_link = form.cleaned_data.get('twitter_link')
+#            user.profile.twitter_follower = form.cleaned_data.get('twitter_follower')
+#            user.profile.facebook_link = form.cleaned_data.get('twitter_link')
+#            user.profile.facebook_follower = form.cleaned_data.get('twitter_follower')
+#            user.profile.instagram_link = form.cleaned_data.get('twitter_link')
+#            user.profile.instagram_follower = form.cleaned_data.get('twitter_follower')
+#            user.profile.youtube_link = form.cleaned_data.get('twitter_link')
+#            user.profile.youtube_follower = form.cleaned_data.get('twitter_follower')
+#            user.profile.image = form.cleaned_data.get('image')
+#            user.save()
+#            raw_password = form.cleaned_data.get('password1')
+#            user = authenticate(username=user.username, password=raw_password)
+#            login(request, user)
+    else:
+        return render(request, 'registration/signup.html', {'form': form})

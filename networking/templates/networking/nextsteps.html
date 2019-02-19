@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -16,7 +17,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../../../favicon.ico">
 
-    <title>Getting Started - Networked</title>
+    <title>Next Steps - Networked</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="https://getbootstrap.com/docs/4.1/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -64,92 +65,49 @@
       <li class="nav-item">
         <a class="nav-link" href="/howitworks">How it Works</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/pricing">Pricing<span class="sr-only">(current)</span></a>
-      </li>
       <li class="nav-item active">
-        <a class="nav-link" href="/getstarted">Get Started<span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="/pricing">Pricing<span class="sr-only">(current)</span></a>
       </li>
     </ul>
   </div>
   </div>
 </nav>
 
-
-
-    <div class="pricing-header px-4 py-3 pt-md-6 pb-md-4 mx-auto text-left">
-      <h1 class="display-4">Get Started</h1>
-      {% if user.is_authenticated %}
-      In order to start using Networked, you’ll need to first get your connections from LinkedIn and then complete a quick questionnaire so that we can customize a plan just for you. Below are the steps to export your connections and complete the questionnaire.
-      
-      <h3></h3>
-      <h2 class="pricing-header px-0 py-0 pt-md-2 pb-md-0 mx-auto text-left"> Export Connections from LinkedIn</h2>
-      <p>1. Open LinkedIn on your browser. Sign in if necessary.</p>
-      <p>2. Click the <b>Me</b> icon at the top right of your LinkedIn homepage.</p>
-      <p>3. Select <b>Settings & Privacy</b> from the dropdown.</p>
-      <p>4. Click the <b>Privacy</b> tab at the top of the page.</p>
-      <p>5. Under the <b>How LinkedIn uses your data</b> section, click <b>Download your data</b>.</p>
-      <p>6. Select Pick and choose button and check the Connections box.</p>
-      <p>7. You will receive an email to your <b>Primary Email Address</b> in LinkedIn, which will include a link where you can download your list of connections.</p>
-      <p><b>Having trouble?</b> Check out the article <a href="https://www.linkedin.com/help/linkedin/answer/66844/exporting-connections-from-linkedin?lang=en">“Exporting Connections from LinkedIn.”</a></p>
-      <h2 class="pricing-header px-0 py-0 pt-md-2 pb-md-0 mx-auto text-left"> Upload</h2>
-      
-          {% if uploadform.errors %}
-        <p style="color: red;">
-            Please correct the error{{ uploadform.errors|pluralize }} below.
-        </p>
-    {% endif %}
-
-    <form action="" enctype="multipart/form-data"  method="post">
-        <table>
-            {{ uploadform.as_table }}
-        </table>
-        {% csrf_token %}
-        <input type="submit" name="upload" value="Submit" class="btn btn-primary">
-    </form>
-    </div>
-
-{% else %}
-
-  First step is to create an account. If you don't already have an account signup below, otherwise, sign in.
-  <div class="row">
-    <div class="col">
-        <h2>Sign up</h2>
-  <form method="post">
-    {% csrf_token %}
-    {% for field in form %}
-      <p>
-        {{ field.label_tag }}<br>
-        {{ field }}
-        {% if field.help_text %}
-          <small style="color: grey">{{ field.help_text }}</small>
-        {% endif %}
-        {% for error in field.errors %}
-          <p style="color: red">{{ error }}</p>
-        {% endfor %}
-      </p>
+{% if messages %}
+  <div class="alert alert-success" role="alert">
+    {% for message in messages %}
+      <p class="{{ message.tags }}" style="text-align:center">{{ message }}</p>
     {% endfor %}
-    <button name="signup" type="submit" class="btn btn-primary">Sign up</button>
-  </form>
-    </div>
-    <div class="col">
-      <h2>Login</h2>
-  <form method="post">
-    {% csrf_token %}
-  <div class="form-group">
-    <label for="exampleInputEmail1">Email address</label>
-    <input name="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-  </div>
-  <div class="form-group">
-    <label for="exampleInputPassword1">Password</label>
-    <input name="password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-  </div>
-  <button name="login" type="submit" class="btn btn-primary">Submit</button>
-</form>
-    </div>
   </div>
 {% endif %}
+      
+<div class="container">
+  <div class="row text-center mx-auto" style="padding-top: 1em;">
+  <h1 class="text-center mx-auto">
+    You've successfully uploaded {{ connections.count }} connections! 
+  </h1>
+  <h2 class="text-center mx-auto">
+    You're on your way to having a stronger network!
+  </h2>
+  </div>
+    <p style="padding-top: 3em;">
+      We will contact you within the next 48 hours with your first round of people to contact for this week. If you have any questions please reach out.
+    </p>
+  
+</div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <p class="copyright text-muted small">Copyright &copy; Networked 2018. All Rights Reserved</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    </div>
+
+
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->

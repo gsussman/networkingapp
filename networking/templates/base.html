@@ -1,94 +1,63 @@
-{% load staticfiles %}
-{#  from http://blog.narenarya.in/right-way-django-authentication.html #}
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-{# HTML5 declaration #}
-<!DOCTYPE html>
-<html>
-    {# Make modifiable head elements #}
-    <head>
-        <title>{% block title %}Home {% endblock title %} | Netwrked </title>
-        {% block head_favicon %}
-            <link rel="icon" type="image/png"
-                  href="{% static 'images/favicon.ico">
-        {% endblock head_favicon %}
-        {% block head_meta %}
-            {% block head_meta_charset %}
-                <meta http-equiv="Content-Type"
-                      content="text/html; charset=utf-8" />
-            {% endblock head_meta_charset %}
-            {% block head_meta_contentlanguage %}
-                <meta http-equiv="Content-Language" value="en-US" />
-            {% endblock head_meta_contentlanguage %}
-            {% block head_meta_viewport %}
-                <meta name="viewport"
-                      content="width=device-width, initial-scale=1.0">
-            {% endblock head_meta_viewport %}
-        {% endblock head_meta %}
-        {% block head_css %}
-            {% block head_css_site %}
-                <link href="{% static 'css/bootstrap.min.css' %}"
-                      rel="stylesheet" media="screen">
-                <link href="{% static 'css/2-col-portfolio.css' %}" rel="stylesheet">
-            {% endblock head_css_site %}
-            {% block head_css_section %}{% endblock head_css_section %}
-            {% block head_css_page %}{% endblock head_css_page %}
-            {% block head_javascript_page %}{% endblock head_javascript_page %}
-        {% endblock head_css %}
-    </head>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
+    {% block title %}{% endblock %}
+  </head>
+{% block body %}
     <body>
-    {# Navigation Menu #}
-    <header>
-        <div class="navbar navbar-inverse navbar-fixed-top 
-        {% block nav-style %}{% endblock %}">
-            <div class="container p-none">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle"
-                            data-toggle="collapse"
-                            data-target=".navbar-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="/">netwrked</a>
+        {% block nav %}
+        <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+
+            {% block nav_content %}
+                {% block navbar_brand %}
+                    <a class="navbar-brand" href="#">Brand</a>
+                {% endblock %}
+
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                {% block navbar_collapse %}
+                <div class="collapse navbar-collapse" id="navbar">
+
+                    {% block navbar_collapse_nav %}{% endblock %}
+
                 </div>
-                <div class="collapse navbar-collapse">
-                    <ul class="nav navbar-nav navbar-right">
-                        {% if user.is_authenticated %}
-                            <li><a href="/accounts/logout/">Logout</a></li>
-                            <li><a href="/trips/"
-                                   class="p-r-none">Trips</a></li>
-                        {% else %}
-                            <li><a href='/accounts/login/'>Login</a></li>
-                            <li><a href='/accounts/signup/' class="p-r-none">Sign Up</a></li>
-                        {% endif %}
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </header>
-    {# The Document Body #}
- <!--   <div id="site-wrapper"> -->
+                {% endblock %}
+
+            {% endblock %}
+
+        </nav>
+        {% endblock %}
+
+        <div class="mt-5"></div>
+
+        {% block navbar_after %}{% endblock %}
+
         {% block content %}
-            if you see this, something is wrong!
-        {% endblock content %}
-<!--    </div> -->
-    {# The Footer #}
-    <div class="footer">
-        <div class="container">
-            <p></p>
-        </div>
-    </div>
-</body>
+            <div class="container">
+                {% block container %}{% endblock %}
+            </div>
+        {% endblock %}
 
+        {% block foot %}
+            <footer>
+                {% block footer %}{% endblock %}
+            </footer>
+        {% endblock %}
 
-    {# Set of blocks that can be used to display JavaScript files #}
-    {% block footer_javascript %}
-        {% block footer_javascript_site %}
-            <script src="{% static 'js/bootstrap.min.js' %}"></script>
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-        {% endblock footer_javascript_site %}
-        {% block footer_javascript_section %}{% endblock footer_javascript_section %}
-        {% block footer_javascript_page %}{% endblock footer_javascript_page %}
-    {% endblock footer_javascript %}
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </body>
+  {% endblock %}
 </html>

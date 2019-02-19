@@ -19,6 +19,7 @@ import pdb
 from networkingapp import settings
 import stripe
 from django.contrib import messages
+from forms import SignUpForm
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 # Create your views here.
@@ -66,23 +67,103 @@ def checkout(request):
         # You can now redirect the user to another page or whatever you want
 
 def getstarted(request):
-    return render(request, 'networking/getstarted.html')
-
+    if request.method == 'POST':
+        if 'signup' in request.POST:
+            for key, values in request.POST.lists():
+                print(key, values)
+            form = SignUpForm(request.POST)
+            if form.is_valid():
+                username = form.cleaned_data.get('email')
+                raw_password = form.cleaned_data.get('password1')
+                user = User.objects.create_user(username, username, raw_password)
+                user.first_name = form.cleaned_data.get('first_name')
+                user.last_name = form.cleaned_data.get('last_name')
+                user.save()
+                user = authenticate(username=username, password=raw_password)
+                login(request, user)
+                return redirect('/getstarted/')
+        elif 'login' in request.POST:
+                email = request.POST['email']
+                password = request.POST['password']
+                user = authenticate(username=email, password=password)
+                if user is not None:
+                    login(request, user)
+                return redirect('/getstarted/')
+        elif 'upload' in request.POST:
+            form = UploadFileForm(request.POST,request.FILES)
+            if form.is_valid():
+                filehandle = request.FILES['file']
+                sheet1 = filehandle.get_sheet()
+#                del sheet1.column[6]
+#                del sheet1.column[5]
+#                sheet1.column += ['User']
+                sheet1.save_as('newdoc.xls')
+                workbook = xlrd.open_workbook('newdoc.xls')
+                worksheet = workbook.sheet_by_index(0)
+                rownum = worksheet.nrows
+                print rownum
+                i = 1
+                while i < rownum:
+                    owner = request.user
+                    first_name = worksheet.cell(i,0).value
+                    last_name = worksheet.cell(i,1).value
+                    email = worksheet.cell(i,2).value
+                    company = worksheet.cell(i,3).value
+                    position = worksheet.cell(i,4).value
+                    connection_level = 3
+                    dated_connected = worksheet.cell(i,5).value
+                    con = Connection(first_name = first_name, last_name = last_name, email = email, company = company, position = position, connection_level = connection_level, owner=owner)
+                    con.save()
+                    date = datetime.date.today()
+                    dateoneweek = date + timedelta(weeks=1)
+                    x = Week(owner = owner, number = 1)
+                    x.save()
+                    w=0
+                    while (date < dateoneweek) and (w<1):
+                        a = ToContact.objects.filter(date = date)
+                        if a:
+                            date = date + timedelta(days = 1)
+                            print date
+                        else:
+                            q = ToContact(connection = con, date = date)
+                            q.save()
+                            x.contacts.add(q)
+                            print 'scheduled'
+                            w=1
+                    i = i+1
+#                newsheet = pe.get_sheet(file_name='newdoc.csv', name_columns_by_row=0)
+#                newsheet.save_to_django_model(model=Connection, initializer=choice_func, mapdict=['first_name', 'last_name', 'email', 'company', 'position', 'owner'])
+                return redirect('/nextsteps/')
+            else:
+                return HttpResponseBadRequest()
+    else:
+        form = SignUpForm()
+        uploadform = UploadFileForm()
+    return render(
+        request,
+        'networking/getstarted.html',
+        {'uploadform': uploadform,
+        'form': form}
+        )
 #def import_sheet(request):
 #    return render(request, 'networking/home.html')
 
+#signup form and view from https://simpleisbetterthancomplex.com/tutorial/2017/02/18/how-to-create-user-sign-up-view.html
 def signup(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        for key, values in request.POST.lists():
+            print(key, values)
+        form = SignUpForm(request.POST)
         if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
+            username = form.cleaned_data.get('email')
             raw_password = form.cleaned_data.get('password1')
+            user = User.objects.create_user(username, username, raw_password)
+            user.save()
             user = authenticate(username=username, password=raw_password)
             login(request, user)
             return redirect('home')
     else:
-        form = UserCreationForm()
+        form = SignUpForm()
     return render(request, 'registration/signup.html', {'form': form})
 
 def categorize(request):
@@ -152,11 +233,11 @@ def import_sheet(request):
         else:
             return HttpResponseBadRequest()
     else:
-        form = UploadFileForm()
+        uploadform = UploadFileForm()
     return render(
         request,
         'networking/upload_form.html',
-        {'form': form})
+        {'uploadform': uploadform})
 
 #rownum = worksheet.nrows
 #i = 1
@@ -209,3 +290,7 @@ def signup_manual(request):
 #            login(request, user)
     else:
         return render(request, 'registration/signup.html', {'form': form})
+        
+def nextsteps(request):
+    connections = Connection.objects.filter(owner=request.user)
+    return render(request, 'networking/nextsteps.html', {'connections':connections})

@@ -40,6 +40,19 @@ def pricing(request):
         messages.success(request, "You're all signed up! We'll let you know when we are taking more people.")
     return render(request, 'networking/pricing.html', context)
 
+def pricingwcheckout(request):
+    context = { "stripe_key": settings.STRIPE_PUBLIC_KEY }
+    if request.method == "POST":
+        print "Post"
+        for key, values in request.POST.lists():
+            print(key, values)
+        print request.POST.get('emailname')
+        email = request.POST.get('emailname')
+        a = emailcapture(email = email)
+        a.save()
+        messages.success(request, "You're all signed up! We'll let you know when we are taking more people.")
+    return render(request, 'networking/pricingwcheckout.html', context)
+
 def howitworks(request):
     return render(request, 'networking/howitworks.html')
 

@@ -101,13 +101,12 @@
               <li style="border-bottom:solid 1px #DDD;"><span>&#8226; </span>Suggestions on writing effective messages</li></li>
             </ul>
             
-            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#exampleModalCenter">Get Started!</button>
             
  <form action="/checkout/" method="POST"> {% csrf_token %}
   <script
     src="https://checkout.stripe.com/checkout.js" class="stripe-button"
     data-key={{stripe_key}}
-    data-amount="999"
+    data-amount="499"
     data-name="Networked"
     data-description="Get Started"
     data-image="https://stripe.com/img/documentation/checkout/marketplace.png"

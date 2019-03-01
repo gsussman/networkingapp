@@ -21,6 +21,9 @@ import stripe
 from django.contrib import messages
 from forms import SignUpForm
 
+import urllib3
+urllib3.disable_warnings()
+
 stripe.api_key = settings.STRIPE_SECRET_KEY
 # Create your views here.
 
@@ -59,14 +62,31 @@ def howitworks(request):
 def checkout(request):
     if request.method == "POST":
         token    = request.POST.get("stripeToken")
+        customeremail = request.POST.get("stripeEmail")
         print (token)
+        print (customeremail)
     try:
-        charge  = stripe.Charge.create(
-            amount      = 1000,
-            currency    = "usd",
-            source      = token,
-            description = "Inital product "
-        )
+        customer = stripe.Customer.create(
+            description=customeremail,
+            source=token,
+            email= customeremail
+            )
+        
+        subscribe = stripe.Subscription.create(
+            customer=customer['id'],
+            items=[
+                {
+                    "plan": "plan_EcYDCzpl0NknG9",
+                    
+                },
+                ])
+        
+#        charge  = stripe.Charge.create(
+#            amount      = 499,
+#            currency    = "usd",
+#            source      = token,
+#            description = "Netwworked Subscription"
+#        )
 
 #        new_car.charge_id   = charge.id
 

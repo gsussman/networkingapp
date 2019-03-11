@@ -12,5 +12,6 @@ urlpatterns = [
     url(r'^checkout/', views.checkout, name="checkout"),
     url(r'^getstarted/', views.getstarted, name="getstarted"),
     url(r'^signup/', views.signup, name="signup"),
-    url(r'^nextsteps/', views.nextsteps, name="nextsteps")
+    url(r'^dashboard/', views.nextsteps, name="nextsteps"),
+    url(r'^signup/stepone', views.stepone, name="stepone"),    
 ]

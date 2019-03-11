@@ -326,4 +326,37 @@ def signup_manual(request):
         
 def nextsteps(request):
     connections = Connection.objects.filter(owner=request.user)
-    return render(request, 'networking/nextsteps.html', {'connections':connections})
+    return render(request, 'networking/dashboard.html', {'connections':connections})
+    
+def stepone(request):
+    if request.method == 'POST':
+        if 'signup' in request.POST:
+            for key, values in request.POST.lists():
+                print(key, values)
+            form = SignUpForm(request.POST)
+            if form.is_valid():
+                username = form.cleaned_data.get('email')
+                raw_password = form.cleaned_data.get('password1')
+                user = User.objects.create_user(username, username, raw_password)
+                user.first_name = form.cleaned_data.get('first_name')
+                user.last_name = form.cleaned_data.get('last_name')
+                user.save()
+                user = authenticate(username=username, password=raw_password)
+                login(request, user)
+                return redirect('/getstarted/')
+        elif 'login' in request.POST:
+                email = request.POST['email']
+                password = request.POST['password']
+                user = authenticate(username=email, password=password)
+                if user is not None:
+                    login(request, user)
+                return redirect('/getstarted/')
+    else:
+        form = SignUpForm()
+        uploadform = UploadFileForm()
+    return render(
+        request,
+        'networking/stepone.html',
+        {'uploadform': uploadform,
+        'form': form}
+        )

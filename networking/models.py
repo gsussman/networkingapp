@@ -9,6 +9,7 @@ from datetime import timedelta
 # Create your models here.
 from django.contrib.auth.models import User
 
+
 low = 26
 med = 16
 high = 8
@@ -28,9 +29,10 @@ class Connection(models.Model):
  company = models.CharField(max_length=64, null=True)
  position = models.CharField(max_length=128, null=True)
  connection_level = models.IntegerField(default=3)
+ full_name = models.CharField(max_length=250, null=True, blank=True)
 
  def __unicode__(self):
-  return self.first_name + " " + self.last_name
+  return str(self.first_name) + " " + str(self.last_name)
 
 class Contacted(models.Model):
  connection = models.ForeignKey(Connection, blank = False)
@@ -47,6 +49,10 @@ class ToContact(models.Model):
 
  def __unicode__(self):
   return unicode(self.date)
+ 
+ def tocontactcount(self):
+  return self.completed
+  
 
 class Week(models.Model):
  number = models.IntegerField()
@@ -79,3 +85,19 @@ class emailcapture(models.Model):
 
  def __unicode__(self):
   return self.email
+  
+class Profile(models.Model):
+ user = models.OneToOneField(User, on_delete=models.CASCADE)
+ first_name = models.CharField(max_length=25, null=True)
+ last_name = models.CharField(max_length=25, null=True, blank=True)
+ education = models.CharField(max_length=256, blank=True)
+ industry = models.CharField(max_length=256, blank=True)
+ job = models.CharField(max_length=256, null=True, blank=True)
+ title = models.CharField(max_length=256, null=True, blank=True)
+ goal = models.TextField(max_length=1000, blank=True)
+ activity = models.CharField(max_length=256, null=True, blank=True)
+ email = email = models.EmailField()
+ 
+ 
+ def __unicode__(self):
+  return str(self.user)

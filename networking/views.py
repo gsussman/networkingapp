@@ -14,7 +14,7 @@ from django.template import RequestContext
 from models import *
 import xlrd
 import datetime
-from datetime import timedelta
+from datetime import timedelta, datetime, date
 import pdb
 from networkingapp import settings
 import stripe
@@ -76,7 +76,7 @@ def checkout(request):
             customer=customer['id'],
             items=[
                 {
-                    "plan": "plan_EcYDCzpl0NknG9",
+                    "plan": "plan_Eyl40w5N6OrS9Y",
                     
                 },
                 ])
@@ -140,14 +140,18 @@ def getstarted(request):
                     owner = request.user
                     first_name = worksheet.cell(i,0).value
                     last_name = worksheet.cell(i,1).value
+                    full_name = first_name + " " + last_name
                     email = worksheet.cell(i,2).value
                     company = worksheet.cell(i,3).value
                     position = worksheet.cell(i,4).value
                     connection_level = 3
-                    dated_connected = worksheet.cell(i,5).value
-                    con = Connection(first_name = first_name, last_name = last_name, email = email, company = company, position = position, connection_level = connection_level, owner=owner)
+                    dateraw = worksheet.cell(i,5).value
+                    seconds = (dateraw - 25569) * 86400.0
+                    datebroken = datetime.utcfromtimestamp(seconds)
+                    dated_connected = datetime.strftime(datebroken,'%Y-%m-%d')
+                    con = Connection(first_name = first_name, last_name = last_name, email = email, company = company, position = position, connection_level = connection_level, owner=owner,dated_connected=dated_connected, full_name=full_name)
                     con.save()
-                    date = datetime.date.today()
+                    date = datetime.today()
                     dateoneweek = date + timedelta(weeks=1)
                     x = Week(owner = owner, number = 1)
                     x.save()
@@ -166,18 +170,14 @@ def getstarted(request):
                     i = i+1
 #                newsheet = pe.get_sheet(file_name='newdoc.csv', name_columns_by_row=0)
 #                newsheet.save_to_django_model(model=Connection, initializer=choice_func, mapdict=['first_name', 'last_name', 'email', 'company', 'position', 'owner'])
-                return redirect('/nextsteps/')
+                return redirect(nextsteps)
             else:
                 return HttpResponseBadRequest()
     else:
         form = SignUpForm()
         uploadform = UploadFileForm()
-    return render(
-        request,
-        'networking/getstarted.html',
-        {'uploadform': uploadform,
-        'form': form}
-        )
+        return render(
+            request, 'networking/getstarted.html', {'uploadform': uploadform, 'form': form})
 #def import_sheet(request):
 #    return render(request, 'networking/home.html')
 
@@ -192,7 +192,7 @@ def signup(request):
             raw_password = form.cleaned_data.get('password1')
             user = User.objects.create_user(username, username, raw_password)
             user.save()
-            user = authenticate(username=username, password=raw_password)
+            user = authenticate(username=username, password=raw_password,)
             login(request, user)
             return redirect('home')
     else:
@@ -325,8 +325,35 @@ def signup_manual(request):
         return render(request, 'registration/signup.html', {'form': form})
         
 def nextsteps(request):
-    connections = Connection.objects.filter(owner=request.user)
-    return render(request, 'networking/dashboard.html', {'connections':connections})
+    if request.method == 'POST':
+        for key, value in request.POST.items():
+            print(key, value)
+        name = request.POST['name']
+        date = request.POST['date']
+        type = request.POST['type']
+        connection = Connection.objects.get(owner = request.user, full_name = name)
+        updateddate = datetime.strptime(date, '%m/%d/%Y').strftime('%Y-%m-%d')
+        print (updateddate)
+        print (connection)
+        tocontactprocessed = ToContact.objects.get(connection__owner=request.user, connection__full_name=name)
+        print (tocontactprocessed)
+        tocontactprocessed.completed = True
+        tocontactprocessed.save()
+        contact_type = Choice.objects.get(choice = type)
+        contactedcreate = Contacted.objects.create(connection = connection, date_contacted = updateddate, contact_type = contact_type)
+        connections = Connection.objects.filter(owner=request.user)
+        contacted = Contacted.objects.filter(connection__owner=request.user)
+        tocontact = ToContact.objects.filter(connection__owner=request.user)
+        tocontactfalse = ToContact.objects.filter(connection__owner=request.user, completed = False)
+        choices = Choice.objects.all()
+        return render(request, 'networking/dashboard.html', {'connections':connections, 'contacted':contacted, 'tocontact':tocontact, 'tocontactfalse':tocontactfalse, 'choices':choices})
+    else:
+        connections = Connection.objects.filter(owner=request.user)
+        contacted = Contacted.objects.filter(connection__owner=request.user)
+        tocontact = ToContact.objects.filter(connection__owner=request.user)
+        tocontactfalse = ToContact.objects.filter(connection__owner=request.user, completed = False)
+        choices = Choice.objects.all()
+        return render(request, 'networking/dashboard.html', {'connections':connections, 'contacted':contacted, 'tocontact':tocontact, 'tocontactfalse':tocontactfalse, 'choices':choices})
     
 def stepone(request):
     if request.method == 'POST':
@@ -360,3 +387,32 @@ def stepone(request):
         {'uploadform': uploadform,
         'form': form}
         )
+        
+def newuserprocess(request):
+    if request.method == 'POST':
+        for key, values in request.POST.lists():
+            print(key, values)
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            username = request.POST['un']
+            raw_password = form.cleaned_data.get('password1')
+            user = User.objects.create_user(username, username, raw_password)
+            user.save()
+            first_name = request.POST['first_name']
+            last_name = request.POST['last_name']
+            user.first_name = request.POST['first_name']
+            user.last_name = request.POST['last_name']
+            user.save()
+            education = request.POST['education']
+            industry = request.POST['industry']
+            job = request.POST['job']
+            title = request.POST['title']
+            goal = request.POST['goal']
+            activity = request.POST['activity']
+            profile = Profile.objects.create(user=user, first_name=first_name, last_name = last_name, education = education, industry = industry, job = job, title=title, goal=goal, activity=activity, email = username)
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect(pricingwcheckout)
+    else:
+        form = SignUpForm()
+    return render(request, 'networking/newuser.html', {'form': form})

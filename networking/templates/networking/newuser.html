@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>Dashboard</title>
+    
+        <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+    <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light" style="font-size: 14px;">
+  <div class="container" style="font-family: "Lato","Helvetica Neue",Helvetica,Arial,sans-serif; font-weight: 700;">
+                <a class="navbar-brand topnav" href="/" style="font-size: 14px; font-family: Lato,Helvetica Neue,Helvetica,Arial,sans-serif; font-weight: 700;">Networked<sup>beta</sup></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav ml-auto" style="font-size: 14px; font-family: Lato,Helvetica Neue,Helvetica,Arial,sans-serif; font-weight: 700;">
+      <li class="nav-item">
+        <a class="nav-link" href="/">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/howitworks">How it Works</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="/pricing">Pricing<span class="sr-only">(current)</span></a>
+      </li>
+    </ul>
+  </div>
+  </div>
+</nav>
+
+<!--<div class="container">
+  <div class="row text-center mx-auto" style="padding-top: 1em;">
+  <h1 class="text-center mx-auto">
+    You've successfully uploaded {{ connections.count }} connections! 
+  </h1>
+  <h2 class="text-center mx-auto">
+    You're on your way to having a stronger network!
+  </h2>
+  </div>
+    <p style="padding-top: 3em;">
+      We will contact you within the next 48 hours with your first round of people to contact for this week. If you have any questions please reach out.
+    </p>
+  
+</div>-->
+
+<div class="container">
+  <br>
+ 
+  <h1>Let's Get Started!</h1>
+  <p>Tell us about you &#8212 your background, what industries you're interested in, and what level of networking effort you want to do.</p>
+<hr class="style1">
+  
+<form method="post">
+  <div class="form-group">
+    <label>Name</label>
+<div class="row">
+    <div class="col">
+      <input type="text" class="form-control" placeholder="First name" name = "first_name">
+    </div>
+    <div class="col">
+      <input type="text" class="form-control" placeholder="Last name" name = "last_name">
+    </div>
+  </div>
+  </div>
+  
+  <div class="form-group">
+    <label for="date">What is your highest level of education?</label>
+    <select class="form-control" id="exampleFormControlSelect2" name = "education">
+<option>High school graduate or equivalent</option> 
+<option>Trade or Vocational degree</option> 
+<option>Some college</option> 
+<option>Associate degree</option> 
+<option>Bachelor's degree</option> 
+<option>Graduate or professional degree</option> 
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="date">What industry do you currently work in?</label>
+    <select class="form-control" id="exampleFormControlSelect2" name = "industry">
+<option>Aerospace & Defense</option>
+<option>Automotive</option>
+<option>Chemical/Petroleum/Process</option>
+<option>Consumer Packaged Goods</option>
+<option>Education</option>
+<option>Electronics</option>
+<option>Finance</option>
+<option>Government</option>
+<option>Health</option>
+<option>Insurance</option>
+<option>Internet</option>
+<option>Manufacturing</option>
+<option>Media & Entertainment</option>
+<option>Professional Services</option>
+<option>Retail</option>
+<option>Technology</option>
+<option>Telecommunications</option>
+<option>Travel & Transportation</option>
+<option>Utilities & Energy</option>
+<option>Wholesale</option>
+<option value="other">Other</option>
+    </select>
+
+  </div>
+
+<div class="form-group">
+    <label for="date">What is your current job function?</label>
+    <select class="form-control" id="exampleFormControlSelect2" name = "job">
+<option>Corporate communications</option>
+<option>Customer service/support</option>
+<option>Creative/Design</option>
+<option>Facilities or real estate management</option>
+<option>Finance or accounting</option>
+<option>Human resources</option>
+<option>Information Technology/IT</option>
+<option>Manufacturing</option>
+<option>Marketing (including Web/digital)</option>
+<option>Operations</option>
+<option>Procurement/purchasing</option>
+<option>Product/service development and/or management</option>
+<option>R&D</option>
+<option>Risk management/regulatory and compliance</option>
+<option>Sales</option>
+<option>Strategic planning/business analysis</option>
+<option>Supply chain management</option>
+<option>Other</option>
+    </select>
+
+  </div>
+
+<div class="form-group">
+    <label for="date">Which best describes your current title or position?</label>
+    <select class="form-control" id="exampleFormControlSelect2" name = "title">
+<option>C-Level Executive or Equivalent (e.g., CIO, CTO, COO, CMO, CFO)</option>
+<option>Senior Vice President/Vice President Level</option>
+<option>Director Level or Department Head</option>
+<option>Manager Level</option>
+<option>Professional (Salaried)</option>
+<option>Technical (hourly)</option>
+<option>Small Business Owner</option>
+<option>Clerical/Administrative Support</option>
+<option>Doctor/Physician</option>
+<option>Developer/Programmer</option>
+<option>Lawyer</option>
+<option>Sales Representative</option>
+<option>Customer Service Representative</option>
+<option>Supervisor</option>
+<option>Educator</option>
+<option>Other</option>
+    </select>
+
+  </div>
+
+  <div class="form-group">
+    <label for="exampleFormControlTextarea1">Describe your main goal in using Networked.</label>
+    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name = "goal" placeholder="This can be something like &quot;I want to accelerate my career on the path I'm currently on,&quot; or &quot;I'm looking for new roles in the telecommunications industry focused on brand marketing.&quot;"></textarea>
+  </div>
+
+<div class="form-group">
+    <label for="exampleFormControlTextarea1">How actively do you want to network?</label> </br>
+<div class="form-check form-check-inline">
+  <input class="form-check-input" type="radio" name="activity" id="inlineRadio1" value="1-2">
+  <label class="form-check-label" for="inlineRadio1">1-2 hours/week</label>
+</div>
+<div class="form-check form-check-inline">
+  <input class="form-check-input" type="radio" name="activity" id="inlineRadio2" value="3-5">
+  <label class="form-check-label" for="inlineRadio2">3-5 hours/week</label>
+</div>
+<div class="form-check form-check-inline">
+  <input class="form-check-input" type="radio" name="activity" id="inlineRadio3" value="5+">
+  <label class="form-check-label" for="inlineRadio3">5+ hours/week</label>
+</div>
+</div>
+    
+<div class="form-group">
+    <label for="exampleInputEmail1">Email address</label>
+    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" required name="un">
+    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+  </div>
+  
+  {% for field in form %}
+<div class="form-group">
+        {{ field.label_tag }}<br>
+        {{ field }}
+        {% if field.help_text %}
+          <small style="color: grey">{{ field.help_text|safe }}</small>
+        {% endif %}
+        {% for error in field.errors %}
+          <p style="color: red">{{ error }}</p>
+        {% endfor %}
+    {% endfor %}
+</div>
+  
+  <button type="submit" class="btn btn-primary">Submit</button>
+        {% csrf_token %}
+</form>
+</div>
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </body>
+</html>

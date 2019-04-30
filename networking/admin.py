@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.contrib import admin
-from .models import Contacted, Connection, Choice, ToContact, Week, emailcapture
+from .models import Contacted, Connection, Choice, ToContact, Week, emailcapture, Profile
 # Register your models here.
 #class ConnectionAdmin(admin.ModelAdmin):
 #    pass
@@ -21,3 +21,4 @@ admin.site.register(Choice)
 admin.site.register(ToContact)
 admin.site.register(Week)
 admin.site.register(emailcapture)
+admin.site.register(Profile)

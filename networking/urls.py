@@ -13,5 +13,6 @@ urlpatterns = [
     url(r'^getstarted/', views.getstarted, name="getstarted"),
     url(r'^signup/', views.signup, name="signup"),
     url(r'^dashboard/', views.nextsteps, name="nextsteps"),
-    url(r'^signup/stepone', views.stepone, name="stepone"),    
+    url(r'^signup/stepone', views.stepone, name="stepone"),
+    url(r'^user-info', views.newuserprocess, name="newuserprocess"),
 ]

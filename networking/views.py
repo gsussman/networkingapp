@@ -28,7 +28,7 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 # Create your views here.
 
 def home(request):
-    return render(request, 'networking/homess.html')
+    return render(request, 'networking/homenetworked.html')
 
 def pricing(request):
     context = { "stripe_key": settings.STRIPE_PUBLIC_KEY }

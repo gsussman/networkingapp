@@ -30,6 +30,19 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 def home(request):
     return render(request, 'networking/homenetworked.html')
 
+def loginpage(request):
+    if request.method == "POST":
+        print "Post"
+        for key, values in request.POST.lists():
+            print(key, values)
+        username = request.POST['email']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect("/dashboard/")
+    return render(request, 'networking/login.html')
+
 def pricing(request):
     context = { "stripe_key": settings.STRIPE_PUBLIC_KEY }
     if request.method == "POST":
@@ -403,7 +416,6 @@ def newuserprocess(request):
             user.first_name = request.POST['first_name']
             user.last_name = request.POST['last_name']
             user.save()
-            education = request.POST['education']
             industry = request.POST['industry']
             job = request.POST['job']
             title = request.POST['title']

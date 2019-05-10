@@ -1,5 +1,6 @@
 from django.conf.urls import url
 from . import views
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     url(r'^$', views.home, name='home'),
@@ -15,4 +16,6 @@ urlpatterns = [
     url(r'^dashboard/', views.nextsteps, name="nextsteps"),
     url(r'^signup/stepone', views.stepone, name="stepone"),
     url(r'^user-info', views.newuserprocess, name="newuserprocess"),
+    url(r'^login', views.loginpage, name="loginpage"),
+    url(r'^logout/$', auth_views.logout, {'next_page': '/'}, name='logout'),
 ]

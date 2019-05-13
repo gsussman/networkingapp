@@ -421,7 +421,7 @@ def newuserprocess(request):
             title = request.POST['title']
             goal = request.POST['goal']
             activity = request.POST['activity']
-            profile = Profile.objects.create(user=user, first_name=first_name, last_name = last_name, education = education, industry = industry, job = job, title=title, goal=goal, activity=activity, email = username)
+            profile = Profile.objects.create(user=user, first_name=first_name, last_name = last_name, industry = industry, job = job, title=title, goal=goal, activity=activity, email = username)
             user = authenticate(username=username, password=raw_password)
             login(request, user)
             return redirect(pricingwcheckout)

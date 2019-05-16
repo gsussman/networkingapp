@@ -428,3 +428,12 @@ def newuserprocess(request):
     else:
         form = SignUpForm()
     return render(request, 'networking/newuser.html', {'form': form})
+    
+    
+def newdash(request):
+    connections = Connection.objects.filter(owner=request.user)
+    contacted = Contacted.objects.filter(connection__owner=request.user)
+    tocontact = ToContact.objects.filter(connection__owner=request.user)
+    tocontactfalse = ToContact.objects.filter(connection__owner=request.user, completed = False)
+    choices = Choice.objects.all()
+    return render(request, 'networking/newdash.html', {'connections':connections, 'contacted':contacted, 'tocontact':tocontact, 'tocontactfalse':tocontactfalse, 'choices':choices})

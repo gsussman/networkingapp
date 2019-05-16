@@ -48,7 +48,7 @@ class ToContact(models.Model):
  completed = models.BooleanField(default=False)
 
  def __unicode__(self):
-  return unicode(self.date)
+  return unicode(self.connection.first_name) + " " + unicode(self.connection.last_name)+ " - " + str(self.connection.owner)
  
  def tocontactcount(self):
   return self.completed

@@ -18,4 +18,5 @@ urlpatterns = [
     url(r'^user-info', views.newuserprocess, name="newuserprocess"),
     url(r'^login', views.loginpage, name="loginpage"),
     url(r'^logout/$', auth_views.logout, {'next_page': '/'}, name='logout'),
+    url(r'^newdash', views.newdash, name="newdash"),
 ]

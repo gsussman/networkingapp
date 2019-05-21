@@ -96,7 +96,8 @@ class Profile(models.Model):
  title = models.CharField(max_length=256, null=True, blank=True)
  goal = models.TextField(max_length=1000, blank=True)
  activity = models.CharField(max_length=256, null=True, blank=True)
- email = email = models.EmailField()
+ email = models.EmailField()
+ referralcode = models.CharField(max_length=256, null=True, blank=True)
  
  
  def __unicode__(self):

@@ -19,4 +19,8 @@ urlpatterns = [
     url(r'^login', views.loginpage, name="loginpage"),
     url(r'^logout/$', auth_views.logout, {'next_page': '/'}, name='logout'),
     url(r'^newdash', views.newdash, name="newdash"),
+    url(r'^connections', views.updateconnection, name="updateconnection"),
+    url(r'^workflowstep1', views.workflow, name="workflow"),
+    url(r'^workflowstep2', views.workflow2, name="workflow2"),
+    url(r'^workflowstep3', views.workflow3, name="workflow3"),
 ]

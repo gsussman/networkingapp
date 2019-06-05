@@ -19,7 +19,10 @@ import pdb
 from networkingapp import settings
 import stripe
 from django.contrib import messages
-from forms import SignUpForm
+from .forms import SignUpForm, ConnectionType, ConnectionLevel
+from django.forms import modelform_factory
+from django.forms import modelform_factory, modelformset_factory
+from models import Connection
 
 import urllib3
 urllib3.disable_warnings()
@@ -67,7 +70,7 @@ def pricingwcheckout(request):
         a = emailcapture(email = email)
         a.save()
         messages.success(request, "You're all signed up! We'll let you know when we are taking more people.")
-    return render(request, 'networking/pricingwcheckout.html', context)
+    return render(request, 'networking/pricing.1.html', context)
 
 def howitworks(request):
     return render(request, 'networking/howitworks.html')
@@ -438,3 +441,99 @@ def newdash(request):
     tocontactfalse = ToContact.objects.filter(connection__owner=request.user, completed = False)
     choices = Choice.objects.all()
     return render(request, 'networking/newdash.html', {'connections':connections, 'contacted':contacted, 'tocontact':tocontact, 'tocontactfalse':tocontactfalse, 'choices':choices})
+    
+def updateconnection(request):
+    connections = Connection.objects.filter(owner=request.user)
+    contacted = Contacted.objects.filter(connection__owner=request.user)
+    tocontact = ToContact.objects.filter(connection__owner=request.user)
+    tocontactfalse = ToContact.objects.filter(connection__owner=request.user, completed = False)
+    choices = Choice.objects.all()
+    connectionform = ConnectionType()
+        # if this is a POST request we need to process the form data
+    if request.method == 'POST':
+        for key, values in request.POST.lists():
+            print(key, values)
+        # create a form instance and populate it with data from the request:
+        form = ConnectionLevel(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            # process the data in form.cleaned_data as required
+            # ...
+            # redirect to a new URL:
+            return HttpResponseRedirect('/thanks/')
+    else:
+        form = ConnectionLevel()
+        connectionform = ConnectionType()
+#        connectionformset = modelformset_factory(Connection, Connection.objects.filter(connections), fields = ('connection_level', 'connection_type',))
+        return render(request, 'networking/updateconnection.html', {'connectionform': connectionform, 'form': form, 'connections':connections, 'contacted':contacted, 'tocontact':tocontact, 'tocontactfalse':tocontactfalse, 'choices':choices})
+        
+def workflow(request):
+    if request.method == 'POST':
+        for key, values in request.POST.lists():
+            print(key, values)
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            username = request.POST['un']
+            raw_password = form.cleaned_data.get('password1')
+            user = User.objects.create_user(username, username, raw_password)
+            user.save()
+            first_name = request.POST['f1-first-name']
+            last_name = request.POST['f1-last-name']
+            user.first_name = first_name
+            user.last_name = last_name
+            user.save()
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            profile = Profile.objects.create(user=user, first_name=first_name, last_name = last_name, email = username)
+#            industry = request.POST['industry']
+#            job = request.POST['job']
+#            title = request.POST['title']
+#            goal = request.POST['goal']
+#            activity = request.POST['activity']
+#            referralcode = request.POST['referralcode']
+
+
+            return redirect(workflow2)
+    else:
+        form = SignUpForm()
+    return render(request, 'networking/signupflow.html', {'form': form})
+
+def workflow2(request):
+    user = request.user
+    if request.method == 'POST':
+        for key, values in request.POST.lists():
+            print(key, values)
+            goal = request.POST.getlist('reason')
+            activity = request.POST['activity']
+            profile = Profile.objects.get(user=user)
+            profile.goal = goal
+            profile.activity = activity
+            profile.save()
+#           industry = request.POST['industry']
+#           job = request.POST['job']
+#           title = request.POST['title']
+
+#           referralcode = request.POST['referralcode']
+#           profile = Profile.objects.create(user=user, first_name=first_name, last_name = last_name, industry = industry, job = job, title=title, goal=goal, activity=activity, email = username, referralcode=referralcode)
+
+            return redirect(workflow3)
+    return render(request, 'networking/signupflow.2.html',)
+    
+def workflow3(request):
+    user = request.user
+    if request.method == 'POST':
+        for key, values in request.POST.lists():
+            print(key, values)
+            industry = request.POST['industry']
+            job = request.POST['job']
+            title = request.POST['title']
+            profile = Profile.objects.get(user=user)
+            profile.industry = industry
+            profile.job = job
+            profile.title = title
+            profile.save()
+#            profile = Profile.objects.create(user=user, first_name=first_name, last_name = last_name, industry = industry, job = job, title=title, goal=goal, activity=activity, email = username, referralcode=referralcode)
+
+            return redirect(pricingwcheckout)
+    else:
+        return render(request, 'networking/signupflow.3.html',)

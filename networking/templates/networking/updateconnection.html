@@ -40,12 +40,12 @@
       <hr class="sidebar-divider my-0">
 
       <!-- Nav Item - Dashboard -->
-      <li class="nav-item active">
+      <li class="nav-item">
         <a class="nav-link" href="newdash">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Dashboard</span></a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item active">
         <a class="nav-link" href="connections">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Connections</span></a>
@@ -122,140 +122,83 @@
         <div class="container-fluid">
 
           <!-- Page Heading -->
-          <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-          </div>
-
-          <!-- Content Row -->
-          <div class="row">
-
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-sm-4 mb-4">
-              <div class="card border-left-info shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Left to Contact this Week</div>
-                      <div class="row no-gutters align-items-center">
-                        <div class="col-auto">
-                          <div class="h3 mb-0 mr-3 font-weight-bold text-gray-800">{{ tocontactfalse.count }}</div>
-                        </div>
-                        <div class="col">
-                          <div class="mr-2">
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-auto">
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-sm-4 mb-4">
-              <div class="card border-left-success shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Total Connections Contacted</div>
-                      <div class="h3 mb-0 font-weight-bold text-gray-800">{{ contacted.count }}</div>
-                    </div>
-                    <div class="col-auto">
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-sm-4 mb-4">
-              <div class="card border-left-info shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Number of Connections</div>
-                      <div class="row no-gutters align-items-center">
-                        <div class="col-auto">
-                          <div class="h3 mb-0 mr-3 font-weight-bold text-gray-800">{{ connections.count }}</div>
-                        </div>
-                        <div class="col">
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-auto">
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Pending Requests Card Example -->
-          </div>
 
           <!-- Content Row -->
           <!-- Page Heading -->
-          <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">This Week</h1>
-          </div>
-          <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h5 mb-0 text-gray-800">This week your goal is to contact <span class="">{{ tocontactfalse.count }}</span> people</h1>
-          </div>
-          <div class="row text-center d-sm-flex align-items-center justify-content-center mb-4">
-
-
-{% for contact in tocontactfalse %}
-            <!-- Area Chart -->
-              <div class="card shadow m-2 flex-fill">
-                <!-- Card Header - Dropdown -->
-                <div class="card-header py-3 d-flex flex-row align-items-center">
-                  <h6 class="m-0 font-weight-bold text-primary">{{ contact.connection.first_name }} {{ contact.connection.last_name }}</h6>
-                </div>
-                <!-- Card Body -->
-                <div class="card-body col-sm">
-    <div class="text-center">
-      <p>{{ contact.connection.position }} <br>
-      {{ contact.connection.company }}<br>
-      Last Contacted: Never<br>
-      <a href="?contact={{ contact.connection.first_name }}-{{ contact.connection.last_name }}" data-toggle="modal" data-target="#myModal">Log Connection</a>
-      </div>
-                </div>
-              </div>
-{% endfor %}
-
-          </div>
-
 
           <div class="card shadow mb-4">
             <div class="card-header py-3">
               <h6 class="m-0 font-weight-bold text-primary">Connections</h6>
             </div>
             <div class="card-body">
+              <h2>Filterable Table</h2>
+  <p>Type something in the input field to search the table for first names, last names or emails:</p>  
+  <input class="form-control" id="myInput" type="text" placeholder="Search..">
+  <br>
+  
+  <form></form>
               <div class="table-responsive">
   <table class="table table-striped">
     <thead>
       <tr>
+        <th>Select</th>
         <th>Name</th>
         <th>Company</th>
         <th>Position</th>
         <th>Date Connected</th>
-        <th>Update Connection</th>
+        <th>Connection Type</th>
+        <th>Connection Level</th>
       </tr>
     </thead>
-    <tbody>
-     
+    <tbody id="myTable">
+
+          <form method="post" >
+                        {% csrf_token %}
+                                  <div class="row bg-light">
+                                    <div class="col-md-6">
+                          <div class="form-group">
+    <label for="exampleFormControlSelect1">Connection Level</label>
+    <select class="form-control" id="exampleFormControlSelect1">
+      <option>No Change</option>
+      <option>1</option>
+      <option>2</option>
+      <option>3</option>
+      <option>4</option>
+      <option>5</option>
+    </select>
+  </div>
+  </div>
+                                      <div class="col-md-6">
+                          <div class="form-group">
+    <label for="exampleFormControlSelect1">Connection Type</label>
+    <select class="form-control" id="exampleFormControlSelect1">
+      <option>No Change</option>
+      <option>Business</option>
+      <option>Personal</option>
+      <option>Business/Personal</option>
+    </select>
+  </div>
+  </div>
 {% for connection in connections %}      
       <tr>
+        <td> <div class="form-check">
+  <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" name="{{ connection.id }}">
+  <label class="form-check-label" for="defaultCheck1">
+  </label>
+</div></td>
         <td>{{ connection.full_name }}</td>
         <td>{{ connection.company }}</td>
         <td>{{ connection.position }}</td>
         <td>{{ connection.dated_connected }}</td>
-        <td><a href="log">Update</a></td>
+        <td>{{ connection.connection_type }}</td>
+        <td>{{ connection.connection_level }}</td>
+
       </tr>
-{% endfor %}      
+{% endfor %} 
     </tbody>
   </table>
+<button type="submit" class="btn btn-default">Submit</button>
+</form>   
   </div>
 
           <!-- Content Row -->
@@ -442,13 +385,7 @@
 
               <!-- Approach -->
               <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">Development Approach</h6>
-                </div>
-                <div class="card-body">
-                  <p>SB Admin 2 makes extensive use of Bootstrap 4 utility classes in order to reduce CSS bloat and poor page performance. Custom CSS classes are used to create custom components and custom utility classes.</p>
-                  <p class="mb-0">Before working with this theme, you should become familiar with the Bootstrap framework, especially the utility classes.</p>
-                </div>
+
               </div>
 
             </div>
@@ -516,6 +453,17 @@
   <!-- Page level custom scripts -->
   <script src="/static/js/demo/chart-area-demo.js"></script>
   <script src="/static/js/demo/chart-pie-demo.js"></script>
+
+<script>
+$(document).ready(function(){
+  $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+</script>
 
 </body>
 

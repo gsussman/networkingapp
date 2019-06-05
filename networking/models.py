@@ -21,18 +21,27 @@ class Choice(models.Model):
   return self.choice
 
 class Connection(models.Model):
+ BUSINESS = 'Business'
+ PERSONAL = 'Personal'
+ BOTH = 'Both'
+ CONNECTION_TYPE = [
+     (BUSINESS, 'Business'),
+     (PERSONAL, 'Personal'),
+     (BOTH, 'Both'),
+ ]
  owner = models.ForeignKey(User, null=True, related_name = 'connection')
  first_name = models.CharField(max_length=25, null=True)
  last_name = models.CharField(max_length=25, null=True, blank=True)
  dated_connected = models.DateField(null=True, blank=True)
- email = models.EmailField(null=True)
+ email = models.EmailField(null=True, blank=True)
  company = models.CharField(max_length=64, null=True)
  position = models.CharField(max_length=128, null=True)
  connection_level = models.IntegerField(default=3)
  full_name = models.CharField(max_length=250, null=True, blank=True)
+ connection_type = models.CharField(max_length=256,choices=CONNECTION_TYPE, null=True, blank=True)
 
  def __unicode__(self):
-  return str(self.first_name) + " " + str(self.last_name)
+  return str(self.owner)+ " " + str(self.first_name) + " " + str(self.last_name)
 
 class Contacted(models.Model):
  connection = models.ForeignKey(Connection, blank = False)

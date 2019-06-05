@@ -106,22 +106,19 @@
               <li style="border-bottom:solid 1px #DDD;">Reminders to keep you on track</li>
               <li>Weekly newsletter with tips on networking</li></li>
             </ul>
-            <a href="workflowstep1" class="btn btn-primary btn-lg">Try Networked</a> 
-<!--            
- <form action="/checkout/" method="POST"> <input type='hidden' name='csrfmiddlewaretoken' value='MCwM4fTlKFABZe2PGs2bBrTAdCUpzCYuqIZM7PWdy5VDk6xK9lAxQTms1XM9r34M' />
+            
+ <form action="/checkout/" method="POST"> {% csrf_token %}
   <script
     src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-    data-key=pk_live_o4OnOOq2LlCATGDDTpMS4QrI
-    data-amount="999"
+    data-key={{stripe_key}}
+    data-amount="499"
     data-name="Networked"
     data-description="Get Started"
     data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
     data-locale="auto"
-    data-label="Get Started">
+    data-label="Checkout">
   </script>
 </form>
-
--->
           </div>
         </div>
 

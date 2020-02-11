@@ -1,4 +1,4 @@
-Django==1.11
+Django==1.11.28
 Pygments==2.2.0
 amqp==2.2.2
 billiard==3.5.0.3

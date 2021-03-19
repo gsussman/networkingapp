@@ -8,7 +8,7 @@ django-debug-toolbar==1.8
 django-excel==0.0.6
 django-pdb==0.6.1
 django-webpack-loader==0.4.1
-djangorestframework==3.6.2
+djangorestframework==3.11.2
 kombu==4.1.0
 pyexcel==0.4.5
 pyexcel-io==0.3.3

@@ -4,7 +4,7 @@ amqp==2.2.2
 billiard==3.5.0.3
 celery==4.1.0
 django-celery-results==1.0.1
-django-debug-toolbar==1.8
+django-debug-toolbar==1.11.1
 django-excel==0.0.6
 django-pdb==0.6.1
 django-webpack-loader==0.4.1

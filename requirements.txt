@@ -3,7 +3,7 @@ Pygments==2.2.0
 amqp==2.2.2
 billiard==3.5.0.3
 celery==4.1.0
-django-celery-results==1.0.1
+django-celery-results==2.4.0
 django-debug-toolbar==1.8
 django-excel==0.0.6
 django-pdb==0.6.1
